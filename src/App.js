@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import './App.css';
-import headerImage from './images/PortfolioHeader.png';
 import profilePic from './images/AntPfp.png';
 import eyeImage from './images/eye.png';
 
@@ -37,9 +36,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={headerImage} alt="Portfolio Header" className="header-image" />
-      </header>
+
+      
       <main>
         <div className="profile-section">
           <div className="profile-container">
@@ -48,10 +46,10 @@ function App() {
             <img ref={rightEyeRef} src={eyeImage} alt="Right Eye" className="eye right-eye" />
           </div>
         </div>
-        <p>Welcome to my comic-style portfolio!</p>
+        <p>Welcome to my portfolio!</p>
       </main>
       <footer>
-        <p>© 2023 My Comic Portfolio</p>
+        <p>AntCamp Portfolio</p>
       </footer>
     </div>
   );

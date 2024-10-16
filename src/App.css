@@ -4,19 +4,6 @@
   display: flex;
   flex-direction: column;
 }
-
-.App-header {
-  width: 100%;
-  overflow: hidden;
-}
-
-.header-image {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  display: block;
-}
-
 main {
   flex-grow: 1;
   padding: 20px;
@@ -29,13 +16,13 @@ main {
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
-  max-width: 600px; /* Adjust this value based on your preference */
+  max-width: 600px; 
 }
 
 .profile-photo {
-  width: 300px; /* Fixed width */
-  height: 300px; /* Fixed height - adjust these values as needed */
-  object-fit: cover; /* This will ensure the image fills the fixed size without distortion */
+  width: 300px; 
+  height: 300px; 
+  object-fit: cover; 
   border: 2px solid black;
   box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
 }
@@ -52,35 +39,28 @@ footer {
   margin: 0 auto;
 }
 
-.profile-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: 2px solid black;
-  box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
-}
 
 .eye {
   position: absolute;
-  width: 15px; /* Adjust size as needed */
-  height: 15px; /* Adjust size as needed */
+  width: 15px; 
+  height: 15px; 
   transition: transform 0.1s ease;
 }
 
 .left-eye {
-  top: 30%; /* Adjust these percentages to position the eyes correctly */
+  top: 30%; 
   left: 51%;
 }
 
 .right-eye {
-  top: 30%; /* Adjust these percentages to position the eyes correctly */
+  top: 31%; /* =Face isn't even right side lower  */
   right: 27%;
 }
 
 
-/* Media query for larger screens */
+
 @media (min-width: 768px) {
   .profile-section {
-    max-width: 800px; /* Adjust this value for larger screens */
+    max-width: 800px; 
   }
 }
