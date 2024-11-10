@@ -1,0 +1,24 @@
+.portfolio-wrapper {
+  position: relative; /* Ensures absolute elements inside stay relative to this container */
+}
+
+.message-box {
+  position: absolute;
+  top: 20px; /* Fixed spacing from top */
+  left: calc(-25% + 10px); 
+  transform: translateX(-50%); /* Adjust to center or fine-tune positioning */
+  padding: 10px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 250px;
+  max-width: 90%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1000;
+}
+
+.message-text {
+  margin: 0;
+  color: black; /* Black text color for readability */
+}
