@@ -1,33 +1,53 @@
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './MessageBox.css';
 
 function MessageBox({ message, onClose }) {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, 3000); // Adjust the delay as needed (3000ms = 3 seconds)
+  const [displayedMessage, setDisplayedMessage] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
 
-    return () => clearTimeout(timer); // Clear the timer if the component unmounts
-  }, [onClose]);
+  useEffect(() => {
+    let index = 0;
+    const intervalId = setInterval(() => {
+      if (index < message.length) {
+        setDisplayedMessage((prev) => prev + message[index]);
+        index++;
+      } else {
+        clearInterval(intervalId);
+        setIsTypingComplete(true);
+      }
+    }, 100); // Adjust typing speed here (50ms between each character)
+
+    return () => clearInterval(intervalId);
+  }, [message]);
+
+  const handleClick = () => {
+    if (isTypingComplete) {
+      onClose();
+    }
+  };
 
   return (
     <motion.div
       className="message-box"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }} // Fade-out animation on close
-      transition={{ duration: 1.5 }} // Duration of the fade-out effect
-      style={{ position: 'absolute' }} // Prevents message box from shifting layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.3 }}
+      onClick={handleClick}
     >
-      <motion.p
-        className="message-text"
-        initial={{ x: '-100%' }}
-        animate={{ x: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        {message}
-      </motion.p>
+      <p className="message-text">
+        {displayedMessage}
+        {!isTypingComplete && (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ repeat: Infinity, duration: 0.7, ease: 'easeInOut' }}
+          >
+            |
+          </motion.span>
+        )}
+      </p>
     </motion.div>
   );
 }

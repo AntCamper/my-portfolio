@@ -16,28 +16,48 @@ import linkedinIcon from '../images/linkedin.svg';
 // Constants
 const MOUTH_ANIMATION_DURATION = 200;
 const EYE_MOVEMENT_DIVISOR = 8;
-const MAX_EYE_OFFSET_RATIO = 1/4;
+const MAX_EYE_OFFSET_RATIO = 1 / 4;
 
 const messages = {
   github: 'Check out my GitHub!',
   discord: 'Join my Discord!',
   linkedin: 'Connect on LinkedIn!',
-  about: 'Howdy, my name is Anthony.'
+  about: 'Howdy, my name is Anthony. I am a UCB Fullstack graduate and a web developer. I am currently looking for full-time opportunities in the tech industry.',
 };
 
 const buttonIcons = {
   discord: discordIcon,
   github: githubIcon,
-  linkedin: linkedinIcon
+  linkedin: linkedinIcon,
 };
 
-// New MessageBox component
+// MessageBox component (unchanged)
 const MessageBox = ({ message, onClose }) => {
   return (
     <div className="message-box" onClick={onClose}>
       {message}
       <span className="message-box-close" onClick={(e) => e.stopPropagation()}></span>
     </div>
+  );
+};
+
+const DraggableButtonContainer = ({ children }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      drag
+      dragMomentum={false}
+      dragConstraints={{
+        top: 0,
+        left: 0,
+        right: window.innerWidth - 300,
+        bottom: window.innerHeight - 100,
+      }}
+      style={{ position: 'absolute', left: position.x, top: position.y }}
+    >
+      {children}
+    </motion.div>
   );
 };
 
@@ -86,6 +106,10 @@ const ProfileContainer = () => {
     setShowMessage(false);
   };
 
+  const handleExternalLink = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const Eye = ({ className }) => (
     <img
       src={EyeImg}
@@ -96,8 +120,18 @@ const ProfileContainer = () => {
   );
 
   const ActionButton = ({ type }) => {
+    const handleClick = () => {
+      if (type === 'github') {
+        handleExternalLink('https://github.com/AntCamper');
+      } else if (type === 'linkedin') {
+        handleExternalLink('https://www.linkedin.com/in/anthony-jones-96b98b2a9/');
+      } else {
+        handleShowMessage(type);
+      }
+    };
+
     return (
-      <button className={`button-wrapper ${type}`} onClick={() => handleShowMessage(type)}>
+      <button className={`button-wrapper ${type}`} onClick={handleClick}>
         {buttonIcons[type] && <img src={buttonIcons[type]} alt={`${type} Icon`} className="button-icon" />}
         <span>{type.charAt(0).toUpperCase() + type.slice(1)}</span>
       </button>
@@ -105,35 +139,39 @@ const ProfileContainer = () => {
   };
 
   return (
-    <div className="portfolio-wrapper">
-      {showMessage && (
-        <MessageBox 
-          message={currentMessage} 
-          onClose={handleCloseMessage} 
-        />
-      )}
+    <div className="app-container">
+      <div className="portfolio-wrapper">
+        {showMessage && (
+          <MessageBox 
+            message={currentMessage} 
+            onClose={handleCloseMessage} 
+          />
+        )}
 
-      <div className="profile-container">
-        <img src={ProfilePic} alt="Profile" className="profile-image" />
+        <div className="profile-container">
+          <img src={ProfilePic} alt="Profile" className="profile-image" />
 
-        <div className="eye-box" ref={eyeBoxRef}>
-          <Eye className="eye-left" />
-          <Eye className="eye-right" />
+          <div className="eye-box" ref={eyeBoxRef}>
+            <Eye className="eye-left" />
+            <Eye className="eye-right" />
+          </div>
+
+          <motion.img
+            src={MouthImg}
+            alt="Mouth"
+            className="mouth"
+            animate={{ y: isMouthOpen ? 10 : 0 }}
+            transition={{ duration: MOUTH_ANIMATION_DURATION / 1000 }}
+          />
         </div>
 
-        <motion.img
-          src={MouthImg}
-          alt="Mouth"
-          className="mouth"
-          animate={{ y: isMouthOpen ? 10 : 0 }}
-          transition={{ duration: MOUTH_ANIMATION_DURATION / 1000 }}
-        />
-      </div>
-
-      <div className="button-container">
-        {Object.keys(messages).map(type => (
-          <ActionButton key={type} type={type} />
-        ))}
+        <DraggableButtonContainer>
+          <div className="button-container">
+            {Object.keys(messages).map(type => (
+              <ActionButton key={type} type={type} />
+            ))}
+          </div>
+        </DraggableButtonContainer>
       </div>
     </div>
   );
