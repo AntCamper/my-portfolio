@@ -35,12 +35,6 @@
   object-fit: cover;
   border-radius: 0;
   z-index: 2;
-  user-drag: none;
-  -webkit-user-drag: none;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 
 /* Eye Box */
@@ -81,7 +75,6 @@
   position: absolute;
   bottom: 0%;
   left: 0%;
-  transform: translateX(-50%);
   width: 105%;
   height: 100%;
   z-index: 4;

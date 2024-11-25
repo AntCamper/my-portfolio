@@ -6,8 +6,24 @@
   height: 100vh;
 }
 
-.App > div {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+.App {
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(
+    0deg,
+    #ccc,
+    #ccc 1px,
+    transparent 1px,
+    transparent 20px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    #ccc,
+    #ccc 1px,
+    transparent 1px,
+    transparent 20px
+  );
+  background-size: 20px 20px;
 }
