@@ -1,0 +1,23 @@
+.project-showcase {
+    position: absolute; /* Changed from fixed to absolute */
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+  }
+  
+  .project-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .project-image {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .project-title {
+    margin: 0;
+    text-align: center;
+  }
