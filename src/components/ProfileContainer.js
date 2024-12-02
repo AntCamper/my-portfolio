@@ -14,7 +14,7 @@ import githubIcon from '../images/github.svg';
 import linkedinIcon from '../images/linkedin.svg';
 
 // Constants
-const MOUTH_ANIMATION_DURATION = 200;
+const MOUTH_ANIMATION_DURATION = 600;
 const EYE_MOVEMENT_DIVISOR = 8;
 const MAX_EYE_OFFSET_RATIO = 1 / 4;
 
