@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
 import './ProjectShowcase.css';
+import { MessageBox } from './MessageBox';
 
 const ProjectShowcase = ({ project }) => {
   const [position, setPosition] = useState({
-    x: window.innerWidth - 340,
-    y: 20
+    x: Math.random() * (window.innerWidth - 340),
+    y: Math.random() * (window.innerHeight - 180)
   });
   const [isSwimming, setIsSwimming] = useState(true);
   const [velocity, setVelocity] = useState({
@@ -15,6 +16,9 @@ const ProjectShowcase = ({ project }) => {
   });
   const isDragging = useRef(false);
   const controls = useAnimation();
+
+  // New state for MessageBox
+  const [activeMessage, setActiveMessage] = useState(null);
 
   useEffect(() => {
     if (!isSwimming || isDragging.current) return;
@@ -82,53 +86,80 @@ const ProjectShowcase = ({ project }) => {
   };
 
   const handleDoubleClick = () => {
-    window.open('https://antcamper.github.io/CurrencyKey/index.html', '_blank');
+    window.open(project.link, '_blank');
+  };
+
+  // New function to handle button clicks
+  const handleButtonClick = (messageKey) => {
+    setActiveMessage(messageKey);
+  };
+
+  // New function to close the message box
+  const handleCloseMessage = () => {
+    setActiveMessage(null);
   };
 
   return (
-    <motion.div
-      className="project-showcase"
-      drag
-      dragMomentum={false}
-      dragElastic={0}
-      onDragStart={handleDragStart}
-      onDrag={handleDrag}
-      onDragEnd={handleDragEnd}
-      onDoubleClick={handleDoubleClick}
-      animate={controls}
-      style={{
-        cursor: 'grab',
-        zIndex: 10,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-      }}
-      aria-label={`Drag to move or double-click to open ${project.title} project`}
-    >
-      <div className="project-content">
-        <img 
-          src={require('../images/CurrencyKeypic.png')} 
-          alt={project.title} 
-          className="project-image"
-          style={{
-            width: '320px',
-            height: '180px',
-            objectFit: 'cover'
-          }}
-        />
-        <p className="project-title">{project.title}</p>
+    <>
+      <motion.div
+        className="project-showcase"
+        drag
+        dragMomentum={false}
+        dragElastic={0}
+        onDragStart={handleDragStart}
+        onDrag={handleDrag}
+        onDragEnd={handleDragEnd}
+        onDoubleClick={handleDoubleClick}
+        animate={controls}
+        initial={{ x: position.x, y: position.y }}
+        style={{
+          cursor: 'grab',
+          zIndex: 10,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+        }}
+        aria-label={`Drag to move or double-click to open ${project.title} project`}
+      >
+        <div className="project-content">
+          <img 
+            src={project.title === 'International Currency' ? require('../images/CurrencyKeypic.png') : require('../images/WeatherVanepic.png')}
+            alt={project.title} 
+            className="project-image"
+            style={{
+              width: '320px',
+              height: '180px',
+              objectFit: 'cover'
+            }}
+          />
+          <p className="project-title">{project.title}</p>
+        </div>
+      </motion.div>
+
+      {/* New buttons for MessageBox */}
+      <div className="profile-buttons">
+        <button onClick={() => handleButtonClick('github')}>GitHub</button>
+        <button onClick={() => handleButtonClick('discord')}>Discord</button>
+        <button onClick={() => handleButtonClick('linkedin')}>LinkedIn</button>
+        <button onClick={() => handleButtonClick('about')}>About</button>
       </div>
-    </motion.div>
+
+      {/* MessageBox component */}
+      {activeMessage && (
+        <MessageBox 
+          messageKey={activeMessage} 
+          onClose={handleCloseMessage} 
+        />
+      )}
+    </>
   );
 };
 
 ProjectShowcase.propTypes = {
   project: PropTypes.shape({
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired
   }).isRequired
 };
 
 export default ProjectShowcase;
-
-
-// https://antcamper.github.io/AntCamperQuiz/

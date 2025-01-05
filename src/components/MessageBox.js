@@ -1,25 +1,14 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import './MessageBox.css';
+import { messages } from './messages';
+import { useTypewriter } from './useTypewriter';
 
-function MessageBox({ message, onClose }) {
-  const [displayedMessage, setDisplayedMessage] = useState('');
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
+function MessageBox({ messageKey, onClose }) {
+  const message = messages[messageKey];
+  const { displayedMessage, isTypingComplete } = useTypewriter(message);
 
-  useEffect(() => {
-    let index = 0;
-    const intervalId = setInterval(() => {
-      if (index < message.length) {
-        setDisplayedMessage((prev) => prev + message[index]);
-        index++;
-      } else {
-        clearInterval(intervalId);
-        setIsTypingComplete(true);
-      }
-    }, 100); // Adjust typing speed here (50ms between each character)
-
-    return () => clearInterval(intervalId);
-  }, [message]);
 
   const handleClick = () => {
     if (isTypingComplete) {
@@ -38,18 +27,15 @@ function MessageBox({ message, onClose }) {
     >
       <p className="message-text">
         {displayedMessage}
-        {!isTypingComplete && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ repeat: Infinity, duration: 0.7, ease: 'easeInOut' }}
-          >
-            |
-          </motion.span>
-        )}
+        {!isTypingComplete && <span className="cursor">|</span>}
       </p>
     </motion.div>
   );
 }
 
-export default MessageBox;
+MessageBox.propTypes = {
+  messageKey: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+export { MessageBox };

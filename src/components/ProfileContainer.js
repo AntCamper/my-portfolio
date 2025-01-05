@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import './ProfileContainer.css';
-import './MessageBox.css';
+import { MessageBox, handleSetMessage } from './MessageBox';
 
 // Importing images
 import ProfilePic from '../images/AntPfp.png';
@@ -14,31 +14,13 @@ import githubIcon from '../images/github.svg';
 import linkedinIcon from '../images/linkedin.svg';
 
 // Constants
-const MOUTH_ANIMATION_DURATION = 600;
 const EYE_MOVEMENT_DIVISOR = 8;
 const MAX_EYE_OFFSET_RATIO = 1 / 4;
-
-const messages = {
-  github: 'Check out my GitHub!',
-  discord: 'Join my Discord!',
-  linkedin: 'Connect on LinkedIn!',
-  about: 'Howdy, my name is Anthony. I am a UCB Fullstack graduate and a web developer. I am currently looking for full-time opportunities in the tech industry.',
-};
 
 const buttonIcons = {
   discord: discordIcon,
   github: githubIcon,
   linkedin: linkedinIcon,
-};
-
-// MessageBox component (unchanged)
-const MessageBox = ({ message, onClose }) => {
-  return (
-    <div className="message-box" onClick={onClose}>
-      {message}
-      <span className="message-box-close" onClick={(e) => e.stopPropagation()}></span>
-    </div>
-  );
 };
 
 const DraggableButtonContainer = ({ children }) => {
@@ -63,9 +45,8 @@ const DraggableButtonContainer = ({ children }) => {
 
 const ProfileContainer = () => {
   const [eyePosition, setEyePosition] = useState({ x: 0, y: 0 });
-  const [isMouthOpen, setIsMouthOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState('');
+  const [animateMouth, setAnimateMouth] = useState(false);
   const eyeBoxRef = useRef(null);
 
   const calculateEyeOffset = (mousePos, rectStart, rectSize) => {
@@ -90,16 +71,10 @@ const ProfileContainer = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  const toggleMouth = () => {
-    setIsMouthOpen(true);
-    setTimeout(() => setIsMouthOpen(false), MOUTH_ANIMATION_DURATION);
-  };
-
   const handleShowMessage = (messageKey) => {
-    setCurrentMessage(messages[messageKey]);
     setShowMessage(true);
-    toggleMouth();
+    setAnimateMouth(true);
+    setTimeout(() => setAnimateMouth(false), 3000);
   };
 
   const handleCloseMessage = () => {
@@ -141,12 +116,7 @@ const ProfileContainer = () => {
   return (
     <div className="app-container">
       <div className="portfolio-wrapper">
-        {showMessage && (
-          <MessageBox 
-            message={currentMessage} 
-            onClose={handleCloseMessage} 
-          />
-        )}
+        {showMessage && <MessageBox onClose={handleCloseMessage} />}
 
         <div className="profile-container">
           <img src={ProfilePic} alt="Profile" className="profile-image" />
@@ -160,14 +130,19 @@ const ProfileContainer = () => {
             src={MouthImg}
             alt="Mouth"
             className="mouth"
-            animate={{ y: isMouthOpen ? 10 : 0 }}
-            transition={{ duration: MOUTH_ANIMATION_DURATION / 1000 }}
+            animate={animateMouth ? { y: [0, 15, 0] } : { y: 0 }}
+            transition={{ 
+              duration: 0.5, 
+              repeat: animateMouth ? 5 : 0, 
+              repeatType: "reverse", 
+              ease: "easeInOut" 
+            }}
           />
         </div>
 
         <DraggableButtonContainer>
           <div className="button-container">
-            {Object.keys(messages).map(type => (
+            {['about', 'github', 'discord', 'linkedin'].map(type => (
               <ActionButton key={type} type={type} />
             ))}
           </div>
