@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
 import './ProjectShowcase.css';
-import { MessageBox } from './MessageBox';
 
 const ProjectShowcase = ({ project }) => {
   const [position, setPosition] = useState({
@@ -16,9 +15,6 @@ const ProjectShowcase = ({ project }) => {
   });
   const isDragging = useRef(false);
   const controls = useAnimation();
-
-  // New state for MessageBox
-  const [activeMessage, setActiveMessage] = useState(null);
 
   useEffect(() => {
     if (!isSwimming || isDragging.current) return;
@@ -73,92 +69,62 @@ const ProjectShowcase = ({ project }) => {
 
     setPosition({ x: newX, y: newY });
     
-    // Resume swimming after a delay
-    const timeoutId = setTimeout(() => {
+    setTimeout(() => {
       setIsSwimming(true);
       setVelocity({
         x: Math.random() * 3 - 1.5,
         y: Math.random() * 3 - 1.5
       });
-    }, 5000); // Resume after 5 seconds
-
-    return () => clearTimeout(timeoutId);
+    }, 5000);
   };
 
   const handleDoubleClick = () => {
     window.open(project.link, '_blank');
   };
 
-  // New function to handle button clicks
-  const handleButtonClick = (messageKey) => {
-    setActiveMessage(messageKey);
-  };
-
-  // New function to close the message box
-  const handleCloseMessage = () => {
-    setActiveMessage(null);
-  };
-
   return (
-    <>
-      <motion.div
-        className="project-showcase"
-        drag
-        dragMomentum={false}
-        dragElastic={0}
-        onDragStart={handleDragStart}
-        onDrag={handleDrag}
-        onDragEnd={handleDragEnd}
-        onDoubleClick={handleDoubleClick}
-        animate={controls}
-        initial={{ x: position.x, y: position.y }}
-        style={{
-          cursor: 'grab',
-          zIndex: 10,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-        }}
-        aria-label={`Drag to move or double-click to open ${project.title} project`}
-      >
-        <div className="project-content">
-          <img 
-            src={project.title === 'International Currency' ? require('../images/CurrencyKeypic.png') : require('../images/WeatherVanepic.png')}
-            alt={project.title} 
-            className="project-image"
-            style={{
-              width: '320px',
-              height: '180px',
-              objectFit: 'cover'
-            }}
-          />
-          <p className="project-title">{project.title}</p>
-        </div>
-      </motion.div>
-
-      {/* New buttons for MessageBox */}
-      <div className="profile-buttons">
-        <button onClick={() => handleButtonClick('github')}>GitHub</button>
-        <button onClick={() => handleButtonClick('discord')}>Discord</button>
-        <button onClick={() => handleButtonClick('linkedin')}>LinkedIn</button>
-        <button onClick={() => handleButtonClick('about')}>About</button>
-      </div>
-
-      {/* MessageBox component */}
-      {activeMessage && (
-        <MessageBox 
-          messageKey={activeMessage} 
-          onClose={handleCloseMessage} 
+    <motion.div
+      className="project-showcase"
+      drag
+      dragMomentum={false}
+      dragElastic={0}
+      onDragStart={handleDragStart}
+      onDrag={handleDrag}
+      onDragEnd={handleDragEnd}
+      onDoubleClick={handleDoubleClick}
+      animate={controls}
+      initial={{ x: position.x, y: position.y }}
+      style={{
+        cursor: 'grab',
+        zIndex: 10,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+      }}
+      aria-label={`Drag to move or double-click to open ${project.title} project`}
+    >
+      <div className="project-content">
+        <img 
+          src={project.image}
+          alt={project.title} 
+          className="project-image"
+          style={{
+            width: '320px',
+            height: '180px',
+            objectFit: 'cover'
+          }}
         />
-      )}
-    </>
+        <p className="project-title">{project.title}</p>
+      </div>
+    </motion.div>
   );
 };
 
 ProjectShowcase.propTypes = {
   project: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired
+    link: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired
   }).isRequired
 };
 

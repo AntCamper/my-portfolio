@@ -19,8 +19,8 @@ body, html, #root {
   ),
   repeating-linear-gradient(
     90deg,
-    #ccc,
-    #ccc 1px,
+    #000000,
+    #000000 5px,
     transparent 1px,
     transparent 20px
   );
