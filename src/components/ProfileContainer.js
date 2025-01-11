@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import './ProfileContainer.css';
-import { MessageBox, handleSetMessage } from './MessageBox';
+import { MessageBox } from './MessageBox';
 
 // Importing images
 import ProfilePic from '../images/AntPfp.png';
@@ -46,6 +46,7 @@ const DraggableButtonContainer = ({ children }) => {
 const ProfileContainer = () => {
   const [eyePosition, setEyePosition] = useState({ x: 0, y: 0 });
   const [showMessage, setShowMessage] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState('default');
   const [animateMouth, setAnimateMouth] = useState(false);
   const eyeBoxRef = useRef(null);
 
@@ -71,7 +72,9 @@ const ProfileContainer = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
   const handleShowMessage = (messageKey) => {
+    setCurrentMessage(messageKey);
     setShowMessage(true);
     setAnimateMouth(true);
     setTimeout(() => setAnimateMouth(false), 3000);
@@ -79,6 +82,7 @@ const ProfileContainer = () => {
 
   const handleCloseMessage = () => {
     setShowMessage(false);
+    setCurrentMessage('default');
   };
 
   const handleExternalLink = (url) => {
@@ -116,7 +120,12 @@ const ProfileContainer = () => {
   return (
     <div className="app-container">
       <div className="portfolio-wrapper">
-        {showMessage && <MessageBox onClose={handleCloseMessage} />}
+        {showMessage && (
+          <MessageBox 
+            messageKey={currentMessage} 
+            onClose={handleCloseMessage} 
+          />
+        )}
 
         <div className="profile-container">
           <img src={ProfilePic} alt="Profile" className="profile-image" />
