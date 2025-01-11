@@ -1,5 +1,4 @@
-.project-showcase {
-    position: absolute; /* Changed from fixed to absolute */
+.project-showcase { 
     background-color: #e0e0e0;
     border-radius: 10px;
     padding: 10px;

@@ -96,7 +96,7 @@ const ProjectShowcase = ({ project }) => {
       initial={{ x: position.x, y: position.y }}
       style={{
         cursor: 'grab',
-        zIndex: 10,
+        zIndex: 4,
         position: 'absolute',
         top: 0,
         left: 0,

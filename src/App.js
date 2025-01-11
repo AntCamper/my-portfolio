@@ -28,7 +28,7 @@ const projects = [
 function App() {
   return (
     <Router>
-      <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      <div className='App' style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
         <ProfileContainer />
         {projects.map(project => (
           <ProjectShowcase key={project.id} project={project} />

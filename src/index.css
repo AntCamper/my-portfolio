@@ -5,24 +5,11 @@ body, html, #root {
   width: 100vw;
   overflow: hidden;
 }
-
 .App {
   height: 100vh;
   display: grid;
   place-items: center;
-  background: repeating-linear-gradient(
-    0deg,
-    #000000,
-    #000000 5px,
-    transparent 1px,
-    transparent 20px
-  ),
-  repeating-linear-gradient(
-    90deg,
-    #000000,
-    #000000 5px,
-    transparent 1px,
-    transparent 20px
-  );
-  background-size: 20px 20px;
+  background-image: url('./images/postmodernbg.jpg');
+  background-repeat: repeat;
+  background-size: auto;
 }
