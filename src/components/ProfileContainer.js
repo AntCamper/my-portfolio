@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import './ProfileContainer.css';
-import { MessageBox } from './MessageBox';
-
-// Importing images
 import ProfilePic from '../images/AntPfp.png';
 import EyeImg from '../images/eye.png';
 import MouthImg from '../images/AntMouth.png';
@@ -43,10 +40,8 @@ const DraggableButtonContainer = ({ children }) => {
   );
 };
 
-const ProfileContainer = () => {
+const ProfileContainer = ({ onShowMessage }) => {
   const [eyePosition, setEyePosition] = useState({ x: 0, y: 0 });
-  const [showMessage, setShowMessage] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState('default');
   const [animateMouth, setAnimateMouth] = useState(false);
   const eyeBoxRef = useRef(null);
 
@@ -73,16 +68,10 @@ const ProfileContainer = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const handleShowMessage = (messageKey) => {
-    setCurrentMessage(messageKey);
-    setShowMessage(true);
+  const handleButtonClick = (messageKey) => {
+    onShowMessage(messageKey);
     setAnimateMouth(true);
     setTimeout(() => setAnimateMouth(false), 3000);
-  };
-
-  const handleCloseMessage = () => {
-    setShowMessage(false);
-    setCurrentMessage('default');
   };
 
   const handleExternalLink = (url) => {
@@ -105,7 +94,7 @@ const ProfileContainer = () => {
       } else if (type === 'linkedin') {
         handleExternalLink('https://www.linkedin.com/in/anthony-jones-96b98b2a9/');
       } else {
-        handleShowMessage(type);
+        handleButtonClick(type);
       }
     };
 
@@ -120,13 +109,6 @@ const ProfileContainer = () => {
   return (
     <div className="app-container">
       <div className="portfolio-wrapper">
-        {showMessage && (
-          <MessageBox 
-            messageKey={currentMessage} 
-            onClose={handleCloseMessage} 
-          />
-        )}
-
         <div className="profile-container">
           <img src={ProfilePic} alt="Profile" className="profile-image" />
 

@@ -17,7 +17,6 @@ function MessageBox({ messageKey, onClose }) {
   const currentIndexRef = useRef(0);
 
   useEffect(() => {
-    // Reset state when messageKey changes
     setDisplayedMessage('');
     setIsTypingComplete(false);
     currentIndexRef.current = 0;
@@ -36,10 +35,8 @@ function MessageBox({ messageKey, onClose }) {
       }
     };
 
-    // Start typing
     timeoutRef.current = setTimeout(typeMessage, 35);
 
-    // Cleanup function
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
