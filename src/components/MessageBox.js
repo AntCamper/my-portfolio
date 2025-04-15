@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import './MessageBox.css';
 
 const messages = {
-  about: "Hello! My name is Anthony. I'm a UCB Fullstack graduate and web developer. I'm currently looking for full-time opportunities in the tech industry. Take a look around at my other work floating around here - click to drag and double-click to visit!",
+  about: "Hello! My name is Anthony. I'm a UCB Fullstack graduate and web developer. I'm currently looking for full-time opportunities in the tech industry. Take a look around at my other work floating around here - click to drag and double-click to visit! email me at janthonyjones2000@gmail.com ",
   discord: "Feel free to reach out to me on Discord! @Antcamper",
   default: "Hello there! 👋"
 };
