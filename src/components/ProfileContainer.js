@@ -18,6 +18,7 @@ const buttonIcons = {
   discord: discordIcon,
   github: githubIcon,
   linkedin: linkedinIcon,
+  game: '🎮',
 };
 
 const DraggableButtonContainer = ({ children }) => {
