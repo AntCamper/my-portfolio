@@ -1,0 +1,81 @@
+.game-container {
+    width: 500px;
+    max-width: 90vw;
+    background: #ffdde1;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.15);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="4" fill="red"/></svg>') 16 16, crosshair;
+  }
+  
+  .game-area {
+    position: relative;
+    height: 400px;
+    background: #f9f9f9 url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0 50h100M50 0v100" stroke="%23eee" stroke-width="1"/></svg>');
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 15px;
+  }
+  
+  .girl-sprite {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 120px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  .ant {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    transition: transform 0.1s;
+  }
+  
+  .ant:hover {
+    transform: scale(1.1);
+  }
+  
+  .game-stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .game-stats span {
+    color: #e91e63;
+    font-weight: bold;
+  }
+  
+  .reload-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 25px;
+    background: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  .reload-button:hover {
+    background: #ff7043;
+  }
+  
+  .close-button {
+    /* Keep your existing close button styles */
+  }

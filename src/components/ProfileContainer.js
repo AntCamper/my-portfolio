@@ -4,6 +4,7 @@ import './ProfileContainer.css';
 import ProfilePic from '../images/AntPfp.png';
 import EyeImg from '../images/eye.png';
 import MouthImg from '../images/AntMouth.png';
+import GameContainer from './GameContainer';
 
 // Importing SVG icons
 import discordIcon from '../images/discord.svg';
@@ -41,9 +42,34 @@ const DraggableButtonContainer = ({ children }) => {
   );
 };
 
+const DraggableGameContainer = ({ onClose }) => {
+  return (
+    <motion.div
+      drag
+      dragMomentum={false}
+      dragConstraints={{
+        top: -window.innerHeight / 2,
+        left: -window.innerWidth / 2,
+        right: window.innerWidth / 2,
+        bottom: window.innerHeight / 2,
+      }}
+      style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1000,
+      }}
+    >
+      <GameContainer onClose={onClose} />
+    </motion.div>
+  );
+};
+
 const ProfileContainer = ({ onShowMessage }) => {
   const [eyePosition, setEyePosition] = useState({ x: 0, y: 0 });
   const [animateMouth, setAnimateMouth] = useState(false);
+  const [showGame, setShowGame] = useState(false);
   const eyeBoxRef = useRef(null);
 
   const calculateEyeOffset = (mousePos, rectStart, rectSize) => {
@@ -70,7 +96,11 @@ const ProfileContainer = ({ onShowMessage }) => {
   }, []);
 
   const handleButtonClick = (messageKey) => {
-    onShowMessage(messageKey);
+    if (messageKey === 'game') {
+      setShowGame(true);
+    } else {
+      onShowMessage(messageKey);
+    }
     setAnimateMouth(true);
     setTimeout(() => setAnimateMouth(false), 3000);
   };
@@ -101,7 +131,10 @@ const ProfileContainer = ({ onShowMessage }) => {
 
     return (
       <button className={`button-wrapper ${type}`} onClick={handleClick}>
-        {buttonIcons[type] && <img src={buttonIcons[type]} alt={`${type} Icon`} className="button-icon" />}
+        {buttonIcons[type] && (type === 'game' ? 
+          <span className="button-icon">{buttonIcons[type]}</span> : 
+          <img src={buttonIcons[type]} alt={`${type} Icon`} className="button-icon" />
+        )}
         <span>{type.charAt(0).toUpperCase() + type.slice(1)}</span>
       </button>
     );
@@ -134,12 +167,14 @@ const ProfileContainer = ({ onShowMessage }) => {
 
         <DraggableButtonContainer>
           <div className="button-container">
-            {['about', 'github', 'discord', 'linkedin'].map(type => (
+            {['about', 'github', 'discord', 'linkedin', 'game'].map(type => (
               <ActionButton key={type} type={type} />
             ))}
           </div>
         </DraggableButtonContainer>
       </div>
+      
+      {showGame && <DraggableGameContainer onClose={() => setShowGame(false)} />}
     </div>
   );
 };
